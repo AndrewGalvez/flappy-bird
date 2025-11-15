@@ -111,6 +111,8 @@ int main() {
   if (!music_enabled)
     PauseMusicStream(music);
 
+  Sound death_sound = LoadSound("assets/death.wav");
+
   float background_scrolling[4] = {0, 0, 0, 0};
 
   int score = 0;
@@ -144,6 +146,7 @@ int main() {
           game_state = GAME_STATE_DEAD;
           p.falling = false;
           p.vel = {0, 0};
+          PlaySound(death_sound);
         }
       }
 
