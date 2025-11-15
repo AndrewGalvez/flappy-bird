@@ -1,4 +1,4 @@
-#Simple flappy bird game written in C++
+# Simple flappy bird game written in C++
 
 ## Controls:
 - Space: Jump, Go through menus
