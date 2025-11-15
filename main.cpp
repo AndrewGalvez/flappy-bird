@@ -106,7 +106,7 @@ int main() {
   background[3] = LoadTexture("assets/clouds/4.png");
 
   Music music = LoadMusicStream("assets/music.mp3");
-  bool music_enabled = false;
+  bool music_enabled = true;
   PlayMusicStream(music);
   if (!music_enabled)
     PauseMusicStream(music);
