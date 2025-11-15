@@ -183,9 +183,13 @@ int main() {
 
     for (int i = 0; i < 4; i++) {
       background_scrolling[i] += i * dt * 50;
-      background_scrolling[i] = fmod(background_scrolling[i], 574.0f);
-      DrawTexturePro(background[i], {background_scrolling[i], 0, 574, 326},
-                     {0, 0, 600, 450}, {0, 0}, 0.0f, WHITE);
+      background_scrolling[i] = fmod(background_scrolling[i], 600.0f);
+      DrawTexturePro(background[i], {0, 0, 574, 326},
+                     {background_scrolling[i], 0, 600, 450}, {0, 0}, 0.0f,
+                     WHITE);
+      DrawTexturePro(background[i], {0, 0, 574, 326},
+                     {background_scrolling[i] - 600, 0, 600, 450}, {0, 0}, 0.0f,
+                     WHITE);
     }
 
     for (Pipe &pipe : pipes) {
