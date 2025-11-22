@@ -8,7 +8,8 @@
 #define CEILING 0.0f
 
 #define PIPE_TIMER_MAX 150
-#define PIPE_MOVE_SPEED 140
+#define PIPE_MOVE_SPEED_BASE 140
+#define PIPE_MOVE_SPEED_INCREASE 10
 #define PIPE_START_X 1000
 #define PIPE_GAP_MIN 110
 #define PIPE_GAP_MAX 150
@@ -71,12 +72,13 @@ public:
 class Pipe {
 public:
   Rectangle rect;
+  float speed = 0;
 
-  Pipe(Rectangle rect) : rect(rect) {}
+  Pipe(Rectangle rect, float speed) : speed(speed), rect(rect) {}
 
   void draw() { DrawRectangleRec(rect, GREEN); }
 
-  void update(float dt) { rect.x -= PIPE_MOVE_SPEED * dt; }
+  void update(float dt) { rect.x -= speed * dt; }
 };
 
 enum GAME_STATE { GAME_STATE_MENU, GAME_STATE_DEAD, GAME_STATE_INGAME };
@@ -98,6 +100,8 @@ int main() {
 
   std::vector<Pipe> pipes;
   int pipeTimer = 60; // every sixty frames
+  float pipe_speed = PIPE_MOVE_SPEED_BASE;
+  int pipe_speed_increase_countdown = 10;
 
   Texture2D background[4];
   background[0] = LoadTexture("assets/clouds/1.png");
@@ -130,14 +134,21 @@ int main() {
       if (pipeTimer % (PIPE_TIMER_MAX / 5) == 0)
         score++;
       if (pipeTimer <= 0) {
+        pipe_speed_increase_countdown--;
+        if (pipe_speed_increase_countdown <= 0) {
+          pipe_speed_increase_countdown = 10;
+          pipe_speed += PIPE_MOVE_SPEED_INCREASE;
+        }
         pipeTimer = PIPE_TIMER_MAX + GetRandomValue(-10, 10);
         int gap_size = GetRandomValue(PIPE_GAP_MIN, PIPE_GAP_MAX);
         int gap_y = GetRandomValue(PIPE_GAP_Y_MIN, PIPE_GAP_Y_MAX);
         // top pipe
-        pipes.push_back(Pipe({PIPE_START_X, 0, PIPE_WIDTH, (float)gap_y}));
+        pipes.push_back(
+            Pipe({PIPE_START_X, 0, PIPE_WIDTH, (float)gap_y}, pipe_speed));
         // bottom pipe
         pipes.push_back(Pipe({PIPE_START_X, (float)gap_y + gap_size, PIPE_WIDTH,
-                              (float)FLOOR - (gap_y)}));
+                              (float)FLOOR - (gap_y)},
+                             pipe_speed));
       }
 
       for (Pipe &pipe : pipes) {

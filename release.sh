@@ -11,6 +11,6 @@ zip -r wasm.zip $2/
 gh release upload $1 wasm.zip
 rm wasm.zip
 rm -rf $2
-cd ../website-react
+cd ../../website-react
 nvim public/games.json
 ./update-builds.sh
