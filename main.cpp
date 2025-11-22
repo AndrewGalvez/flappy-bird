@@ -10,8 +10,8 @@
 #define PIPE_TIMER_MAX 150
 #define PIPE_MOVE_SPEED 140
 #define PIPE_START_X 1000
-#define PIPE_GAP_MIN 125
-#define PIPE_GAP_MAX 175
+#define PIPE_GAP_MIN 110
+#define PIPE_GAP_MAX 150
 #define PIPE_GAP_Y_MIN 100
 #define PIPE_GAP_Y_MAX FLOOR - PIPE_GAP_MAX - 25
 #define PIPE_WIDTH 75
@@ -130,7 +130,7 @@ int main() {
       if (pipeTimer % (PIPE_TIMER_MAX / 5) == 0)
         score++;
       if (pipeTimer <= 0) {
-        pipeTimer = PIPE_TIMER_MAX;
+        pipeTimer = PIPE_TIMER_MAX + GetRandomValue(-10, 10);
         int gap_size = GetRandomValue(PIPE_GAP_MIN, PIPE_GAP_MAX);
         int gap_y = GetRandomValue(PIPE_GAP_Y_MIN, PIPE_GAP_Y_MAX);
         // top pipe
